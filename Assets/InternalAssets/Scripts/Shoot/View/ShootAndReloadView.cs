@@ -38,7 +38,7 @@ public class ShootAndReloadView : MonoBehaviour
             if (_shootingViewModel.Item != null)
             {
                 _countAmmo.text = _shootingViewModel.Ammo.ToString();
-                _reloadButton.interactable = _shootingViewModel.Ammo < _shootingViewModel.Item.CountOfBullets;
+                _reloadButton.interactable = _shootingViewModel.Ammo < _shootingViewModel.Item.MagazineSize;
                 _shootButton.interactable = _shootingViewModel.Ammo > 0;
             }
             else

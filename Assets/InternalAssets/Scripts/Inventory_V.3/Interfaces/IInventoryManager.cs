@@ -6,7 +6,7 @@ public interface IInventoryManager : INotifyPropertyChanged
 {
     public InventorySlot[] InventorySlots { get; }
 
-    public bool AddItem(CopyItem item);
+    public bool AddItem(ItemData item);
 
     public List<IInventoryItemView> AmmoSlots { get; set; }
 

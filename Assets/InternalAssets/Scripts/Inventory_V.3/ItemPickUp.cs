@@ -9,7 +9,7 @@ public class ItemPickUp : MonoBehaviour
 
     private void PickUp()
     {
-        CopyItem copyItem = new CopyItem();
+        ItemData copyItem = new ItemData();
 
         copyItem.CopyItemGeneric(Item);
 

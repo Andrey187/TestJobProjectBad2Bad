@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class SaveLoadSlotsData : SaveLoadSystem<CopyInventorySlot>
+public class SaveLoadSlotsData : SaveLoadSystem<InventorySlotData>
 {
     private void Start()
     {
@@ -13,11 +13,11 @@ public class SaveLoadSlotsData : SaveLoadSystem<CopyInventorySlot>
 
     public override void SaveData(SaveData saveData)
     {
-        saveData.InventorySlots = new List<CopyInventorySlot>();
+        saveData.InventorySlots = new List<InventorySlotData>();
 
         foreach (var slot in inventoryManager.InventorySlots)
         {
-            CopyInventorySlot newCopySlot = new CopyInventorySlot();
+            InventorySlotData newCopySlot = new InventorySlotData();
             newCopySlot.CopySlot(slot);
             saveData.InventorySlots.Add(newCopySlot);
             
@@ -32,7 +32,7 @@ public class SaveLoadSlotsData : SaveLoadSystem<CopyInventorySlot>
 
     private async Task ClearAndLoadInventorySlots()
     {
-        List<CopyInventorySlot> loadedItems = JsonConvert.DeserializeObject<List<CopyInventorySlot>>(jsonData);
+        List<InventorySlotData> loadedItems = JsonConvert.DeserializeObject<List<InventorySlotData>>(jsonData);
 
         for (int i = 0; i < loadedItems.Count; i++)
         {

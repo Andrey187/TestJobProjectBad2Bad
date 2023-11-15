@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class CopyItem : IItemParams, IWeaponParams
+public class ItemData : IItemParams, IWeaponParams
 {
     public int Id { get; set; }
     public string ItemName { get; set; }
@@ -15,7 +15,7 @@ public class CopyItem : IItemParams, IWeaponParams
 
     [JsonIgnore] public Sprite Icon { get; set; }
     public byte[] ImageData { get; set; }
-    public int CountOfBullets { get; set; }
+    public int MagazineSize { get; set; }
 
     public void CopyItemGeneric<T>(T item) where T : IItemParams, IWeaponParams
     {
@@ -26,6 +26,6 @@ public class CopyItem : IItemParams, IWeaponParams
         Stackable = item.Stackable;
         IsEquipped = item.IsEquipped;
         Icon = item.Icon;
-        CountOfBullets = item.CountOfBullets;
+        MagazineSize = item.MagazineSize;
     }
 }

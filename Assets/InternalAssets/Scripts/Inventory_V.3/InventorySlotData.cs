@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class CopyInventorySlot
+public class InventorySlotData
 {
     public string ColorHex { get; set; } // Цвет в формате HEX
 

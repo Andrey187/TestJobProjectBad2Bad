@@ -5,16 +5,20 @@ using UnityEngine;
 public class ShootingViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
-    public int Ammo { get; set; }
+    public int Ammo
+    {
+        get { return _shootModel.Ammo; }
+        set { _shootModel.Ammo = value; }
+    }
 
-    public CopyItem Item
+    public ItemData Item
     {
         get { return _shootModel.Item; }
         set { _shootModel.Item = value; }
     }
 
     private ShootModel _shootModel;
-    private int returnAmmo;
+    private int _returnAmmo;
 
     public ShootingViewModel(ShootModel shootModel)
     {
@@ -36,7 +40,7 @@ public class ShootingViewModel : INotifyPropertyChanged
     {
         if(Ammo != 0)
         {
-            Ammo -= 4;
+            Ammo -= 1;
             OnPropertyChanged(nameof(Ammo));
         }
     }
@@ -46,12 +50,12 @@ public class ShootingViewModel : INotifyPropertyChanged
         if(Item != null)
         {
             // Проверяем, если Ammo больше или равно 16, то выходим
-            if (Ammo >= _shootModel.Item.CountOfBullets)
+            if (Ammo >= _shootModel.Item.MagazineSize)
             {
                 return;
             }
 
-            int neededAmmo = _shootModel.Item.CountOfBullets - Ammo;
+            int neededAmmo = _shootModel.Item.MagazineSize - Ammo;
 
             // Создаем копию списка для итерации
             List<IInventoryItemView> ammoSlotsCopy = new List<IInventoryItemView>(_shootModel.InventoryManager.AmmoSlots);
@@ -93,10 +97,10 @@ public class ShootingViewModel : INotifyPropertyChanged
 
     private void ChangeWeapon()
     {
-        if (Ammo >= _shootModel.Item.CountOfBullets)
+        if (Ammo >= _shootModel.Item.MagazineSize)
         {
-            returnAmmo = Ammo - _shootModel.Item.CountOfBullets;
-            RemoveAmmo(returnAmmo);
+            _returnAmmo = Ammo - _shootModel.Item.MagazineSize;
+            RemoveAmmo(_returnAmmo);
         }
 
         List<IInventoryItemView> ammoSlotsCopy = new List<IInventoryItemView>(_shootModel.InventoryManager.AmmoSlots);
@@ -104,7 +108,7 @@ public class ShootingViewModel : INotifyPropertyChanged
         // Перебираем все элементы инвентаря
         foreach (var itemInSlot in ammoSlotsCopy)
         {
-            itemInSlot.Item.Count += returnAmmo;
+            itemInSlot.Item.Count += _returnAmmo;
             itemInSlot.RefreshCount();
             break;
         }

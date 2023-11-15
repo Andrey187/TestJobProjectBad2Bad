@@ -6,12 +6,26 @@ public class ShootModel : MonoBehaviour, IShootModel
 {
     [Inject] private IInventoryManager _inventoryManager;
     
-    private CopyItem _item;
-
-    public CopyItem Item
+    private ItemData _item;
+    private int _ammo;
+    public ItemData Item
     {
         get { return _item; }
         set { _item = value; }
+    }
+
+    public int Ammo 
+    {
+        get { return _ammo; }
+        set { _ammo = value; }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Debug.Log(Ammo);
+        }
     }
 
     public IInventoryManager InventoryManager
@@ -27,19 +41,7 @@ public class ShootModel : MonoBehaviour, IShootModel
         _inventoryManager.PropertyChanged += HandlePropertyChanged;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-
-            foreach (var slot in _inventoryManager.InventorySlots)
-            {
-                Debug.Log(slot.CachedImageColor);
-            }
-        }
-    }
-
-    public void ChangeWeapon(CopyItem item, IInventoryItemView inventoryItemView)
+    public void ChangeWeapon(IInventoryItemView inventoryItemView)
     {
         if (_inventoryManager.WeaponSlots != null && !_inventoryManager.WeaponSlots.Contains(inventoryItemView) )
         {
@@ -58,7 +60,7 @@ public class ShootModel : MonoBehaviour, IShootModel
             }
             _inventoryManager.WeaponSlots.Clear();
             
-            _item = item;
+            _item = inventoryItemView.Item;
             _inventoryManager.WeaponSlots.Add(inventoryItemView);
             OnPropertyChanged(nameof(Item));
         }

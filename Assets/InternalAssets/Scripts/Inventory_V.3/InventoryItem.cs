@@ -21,7 +21,7 @@ public class InventoryItem : MonoBehaviour, IPointerExitHandler, IPointerDownHan
 
         if (_inventoryItemView.IsEquipped)
         {
-            _shootModel.ChangeWeapon(_inventoryItemView.Item, _inventoryItemView);
+            _shootModel.ChangeWeapon(_inventoryItemView);
         }
 
         _inventoryItemView.OnEquipItem += EquipItem;
@@ -44,7 +44,7 @@ public class InventoryItem : MonoBehaviour, IPointerExitHandler, IPointerDownHan
         InventorySlot inventorySlot = gameObject.GetComponentInParent<InventorySlot>();
         inventorySlot.Image.color = Color.green;
         
-        _shootModel.ChangeWeapon(inventoryItemView.Item, inventoryItemView);
+        _shootModel.ChangeWeapon(inventoryItemView);
     }
 
     private void RemoveItem(IInventoryItemView inventoryItemView)

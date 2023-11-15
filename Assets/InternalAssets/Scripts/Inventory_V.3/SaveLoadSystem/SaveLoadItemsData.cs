@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class SaveLoadItemsData : SaveLoadSystem<CopyItem>
+public class SaveLoadItemsData : SaveLoadSystem<ItemData>
 {
     private void Start()
     {
@@ -12,14 +12,14 @@ public class SaveLoadItemsData : SaveLoadSystem<CopyItem>
 
     public override void SaveData(SaveData saveData)
     {
-        saveData.Items = new List<CopyItem>();
+        saveData.Items = new List<ItemData>();
 
         foreach (var slot in inventoryManager.InventorySlots)
         {
             InventoryItemView itemInSlot = slot.GetComponentInChildren<InventoryItemView>();
             if (itemInSlot != null)
             {
-                CopyItem copyItem = new CopyItem();
+                ItemData copyItem = new ItemData();
 
                 copyItem.CopyItemGeneric(itemInSlot.Item);
 
@@ -49,11 +49,11 @@ public class SaveLoadItemsData : SaveLoadSystem<CopyItem>
             }
         }
 
-        List<CopyItem> loadedItems = JsonConvert.DeserializeObject<List<CopyItem>>(jsonData);
+        List<ItemData> loadedItems = JsonConvert.DeserializeObject<List<ItemData>>(jsonData);
 
         foreach (var itemData in loadedItems)
         {
-            CopyItem item = new CopyItem();
+            ItemData item = new ItemData();
             item.CopyItemGeneric(itemData);
 
             Texture2D texture = new Texture2D(1, 1);

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public interface IInventoryItemView
 {
-    public CopyItem Item { get; set; }
+    public ItemData Item { get; set; }
 
     public Image Image { get; set; }
 
@@ -15,7 +15,7 @@ public interface IInventoryItemView
     public event Action<InventoryItemView> OnSelectItem;
     public event Action<InventoryItemView> OnRemoveItem;
 
-    public void InitialiseItem(CopyItem newItem);
+    public void InitialiseItem(ItemData newItem);
 
     public void RefreshCount();
 

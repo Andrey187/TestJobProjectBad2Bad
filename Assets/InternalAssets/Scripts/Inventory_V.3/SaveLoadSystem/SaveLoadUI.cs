@@ -13,6 +13,9 @@ public class SaveLoadUI : MonoBehaviour
     [Inject(Id = "SlotsData")]
     private ISaveLoad _slotsSaveLoadData;
 
+    [Inject(Id = "AmmoData")]
+    private ISaveLoad _ammoSaveLoadData;
+
     private void Start()
     {
         _saveButton.onClick.AddListener(() => SaveButton());
@@ -24,11 +27,13 @@ public class SaveLoadUI : MonoBehaviour
         SaveData saveData = new SaveData();
         _itemsSaveLoadData.SaveData(saveData);
         _slotsSaveLoadData.SaveData(saveData);
+        _ammoSaveLoadData.SaveData(saveData);
     }
 
     private void LoadButton()
     {
         _itemsSaveLoadData.LoadData();
         _slotsSaveLoadData.LoadData();
+        _ammoSaveLoadData.LoadData();
     }
 }

@@ -3,11 +3,11 @@ using UnityEditor;
 [CustomEditor(typeof(Item))]
 public class ItemEditor : Editor
 {
-    SerializedProperty _countOfBullets;
+    SerializedProperty _magazineSize;
 
     private void OnEnable()
     {
-        _countOfBullets = serializedObject.FindProperty("_countOfBullets");
+        _magazineSize = serializedObject.FindProperty("_magazineSize");
     }
 
     public override void OnInspectorGUI()
@@ -22,7 +22,7 @@ public class ItemEditor : Editor
 
         while (next)
         {
-            if (property.name != "_countOfBullets")
+            if (property.name != "_magazineSize")
             {
                 EditorGUILayout.PropertyField(property);
             }
@@ -33,7 +33,7 @@ public class ItemEditor : Editor
         // Определите, какие поля отображать в зависимости от типа
         if (item.Type == ItemType.Weapon)
         {
-            EditorGUILayout.PropertyField(_countOfBullets);
+            EditorGUILayout.PropertyField(_magazineSize);
         }
         serializedObject.ApplyModifiedProperties();
     }

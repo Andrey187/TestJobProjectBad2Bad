@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 [Serializable]
 public class SaveData
 {
-    public List<CopyItem> Items;
-    public List<CopyInventorySlot> InventorySlots;
+    public List<ItemData> Items;
+    public List<InventorySlotData> InventorySlots;
+    public List<AmmoData> AmmoData;
 }
 
 public abstract class SaveLoadSystem<T> : MonoBehaviour, ISaveLoad

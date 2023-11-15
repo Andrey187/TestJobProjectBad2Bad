@@ -13,5 +13,8 @@ public class SceneInstaller : MonoInstaller
 
         // Бинд для SaveLoadSlotsData
         Container.Bind<ISaveLoad>().WithId("SlotsData").To<SaveLoadSlotsData>().FromComponentInHierarchy().AsSingle().NonLazy();
+
+        // Бинд для SaveLoadAmmoData
+        Container.Bind<ISaveLoad>().WithId("AmmoData").To<SaveLoadAmmoData>().FromComponentInHierarchy().AsSingle().NonLazy();
     }
 }

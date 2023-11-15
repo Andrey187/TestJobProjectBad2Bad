@@ -15,7 +15,7 @@ public class InventoryItemView : MonoBehaviour, IInventoryItemView, IBeginDragHa
     [SerializeField] private Button _equipItemButton;
     [SerializeField] private Vector3 _offsetPopUpMenu;
 
-    public CopyItem Item { get; set; }
+    public ItemData Item { get; set; }
 
     public Image Image { get => _image; set => _image = value; }
 
@@ -33,7 +33,7 @@ public class InventoryItemView : MonoBehaviour, IInventoryItemView, IBeginDragHa
         _equipItemButton.onClick.AddListener(() => OnEquipItem?.Invoke(this));
     }
 
-    public void InitialiseItem(CopyItem newItem)
+    public void InitialiseItem(ItemData newItem)
     {
         Item = newItem;
         _image.sprite = Item.Icon;

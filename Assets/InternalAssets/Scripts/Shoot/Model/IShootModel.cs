@@ -1,4 +1,5 @@
 public interface IShootModel
 {
-    public void ChangeWeapon(CopyItem item, IInventoryItemView inventoryItem);
+    public int Ammo { get; set; }
+    public void ChangeWeapon(IInventoryItemView inventoryItem);
 }

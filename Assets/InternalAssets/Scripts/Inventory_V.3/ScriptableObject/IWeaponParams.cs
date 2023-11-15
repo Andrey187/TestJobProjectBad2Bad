@@ -1,4 +1,4 @@
 public interface IWeaponParams
 {
-    public int CountOfBullets { get; set; }
+    public int MagazineSize { get; set; }
 }

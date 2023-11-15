@@ -19,7 +19,7 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
 
     public List<IInventoryItemView> WeaponSlots { get => _weaponSlots; set => _weaponSlots = value; }
 
-    public bool AddItem(CopyItem item)
+    public bool AddItem(ItemData item)
     {
         // ѕытаемс€ стакать существующие предметы
         MergeExistingItems(item);
@@ -27,7 +27,7 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
         return AddRemainingItems(item, item.Count);
     }
 
-    private void MergeExistingItems(CopyItem item)
+    private void MergeExistingItems(ItemData item)
     {
         for (int i = 0; i < _inventorySlots.Length; i++)
         {
@@ -58,7 +58,7 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
         }
     }
 
-    private bool AddRemainingItems(CopyItem item, int itemCount)
+    private bool AddRemainingItems(ItemData item, int itemCount)
     {
         // Add any remaining items using the new implementation
 
@@ -69,7 +69,7 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
             int stackSize = Math.Min(itemCount, MaxStackedItems);
 
             // —оздайте новый экземпл€р CopyItem дл€ каждого нового итема
-            CopyItem newItem = new CopyItem();
+            ItemData newItem = new ItemData();
             newItem.CopyItemGeneric(item);
             newItem.Count = stackSize;
 
@@ -83,7 +83,7 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
         return true;
     }
 
-    private bool AddNewItem(CopyItem item)
+    private bool AddNewItem(ItemData item)
     {
         for (int i = 0; i < _inventorySlots.Length; i++)
         {
@@ -99,7 +99,7 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
         return false; // The inventory is full
     }
 
-    private void SpawnNewItem(CopyItem item, InventorySlot slot)
+    private void SpawnNewItem(ItemData item, InventorySlot slot)
     {
         GameObject newItemGo = Instantiate(InventoryItemPrefab, slot.transform);
         newItemGo.TryGetComponent(out IInventoryItemView inventoryItem);

@@ -18,7 +18,7 @@ public class Item : ScriptableObject, IItemParams, IWeaponParams
     [SerializeField] private Sprite _icon;
 
     [HideInInspector]
-    [SerializeField] private int _countOfBullets;
+    [SerializeField] private int _magazineSize;
 
     public int Id { get => _id; set => _id = value; }
     public string ItemName { get => _itemName; set => _itemName = value; }
@@ -28,7 +28,8 @@ public class Item : ScriptableObject, IItemParams, IWeaponParams
     public bool IsEquipped { get; set; }
     public Sprite Icon { get => _icon; set => _icon = value; }
     public byte[] ImageData { get; set; }
-    public int CountOfBullets { get => _countOfBullets; set => _countOfBullets = value; }
+    public int MagazineSize { get => _magazineSize; set => _magazineSize = value; }
+
 }
 
 public enum ItemType
