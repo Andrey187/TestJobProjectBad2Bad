@@ -32,7 +32,7 @@ public class SaveLoadAmmoData : SaveLoadSystem<AmmoData>
         for (int i = 0; i < loadedData.Count; i++)
         {
             _shootModel.Ammo = loadedData[i].Ammo;
-            await Task.Yield();
         }
+        await Task.Yield();
     }
 }

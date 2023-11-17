@@ -9,6 +9,8 @@ public class ShootAndReloadView : MonoBehaviour
     [SerializeField] private Button _shootButton;
     [SerializeField] private TextMeshProUGUI _countAmmo;
 
+    [SerializeField] private Image _iconShootButton;
+
     [SerializeField] private ShootModel shootModel;
     private ShootingViewModel _shootingViewModel;
 
@@ -38,6 +40,7 @@ public class ShootAndReloadView : MonoBehaviour
             if (_shootingViewModel.Item != null)
             {
                 _countAmmo.text = _shootingViewModel.Ammo.ToString();
+                _iconShootButton.sprite = _shootingViewModel.Item.Icon;
                 _reloadButton.interactable = _shootingViewModel.Ammo < _shootingViewModel.Item.MagazineSize;
                 _shootButton.interactable = _shootingViewModel.Ammo > 0;
             }

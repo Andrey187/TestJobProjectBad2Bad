@@ -125,7 +125,7 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
             _ammoSlots.Remove(item);
         }
 
-        if (item.Item.Type == ItemType.Weapon)
+        if (item.Item.Type == ItemType.Weapon && item.Item.IsEquipped)
         {
             _weaponSlots.Remove(item);
             OnPropertyChanged(nameof(WeaponSlots));
