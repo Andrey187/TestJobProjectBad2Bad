@@ -17,28 +17,25 @@ public class ShootModel : MonoBehaviour, IShootModel
     public int Ammo 
     {
         get { return _ammo; }
-        set { _ammo = value; }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Debug.Log(Ammo);
-        }
+        set { _ammo = value; OnPropertyChanged(nameof(Ammo)); }
     }
 
     public IInventoryManager InventoryManager
     {
         get { return _inventoryManager; }
-        set { _inventoryManager = value; }
+        set { _inventoryManager = value;}
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
-
+    
     private void Start()
     {
         _inventoryManager.PropertyChanged += HandlePropertyChanged;
+    }
+
+    public void SetAmmo(int ammo)
+    {
+        Ammo = ammo;
     }
 
     public void ChangeWeapon(IInventoryItemView inventoryItemView)
@@ -47,9 +44,10 @@ public class ShootModel : MonoBehaviour, IShootModel
         {
             foreach(var cacheInventory in _inventoryManager.WeaponSlots)
             {
-                if(cacheInventory != null)
+                if (cacheInventory != null)
                 {
                     cacheInventory.IsEquipped = false;
+
                     InventorySlot inventorySlot = (cacheInventory as MonoBehaviour)?.gameObject.GetComponentInParent<InventorySlot>();
 
                     if (inventorySlot != null)
@@ -78,6 +76,9 @@ public class ShootModel : MonoBehaviour, IShootModel
             case nameof(_inventoryManager.WeaponSlots):
                 Item = null;
                 OnPropertyChanged(nameof(Item));
+                break;
+            case nameof(Ammo):
+                OnPropertyChanged(nameof(Ammo));
                 break;
         }
     }

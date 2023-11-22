@@ -7,6 +7,7 @@ public class ItemData : IItemParams, IWeaponParams
 {
     public int Id { get; set; }
     public string ItemName { get; set; }
+    public int SlotIndex { get; set; }
     public int Count { get; set; }
     public ItemType Type { get; set; }
     public bool Stackable { get; set; }
@@ -21,6 +22,7 @@ public class ItemData : IItemParams, IWeaponParams
     {
         Id = item.Id;
         ItemName = item.ItemName;
+        SlotIndex = item.SlotIndex;
         Count = item.Count;
         Type = item.Type;
         Stackable = item.Stackable;

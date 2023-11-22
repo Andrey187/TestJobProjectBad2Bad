@@ -2,6 +2,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 public class SaveLoadItemsData : SaveLoadSystem<ItemData>
 {
@@ -23,6 +24,8 @@ public class SaveLoadItemsData : SaveLoadSystem<ItemData>
 
                 copyItem.CopyItemGeneric(itemInSlot.Item);
 
+                copyItem.SlotIndex = Array.IndexOf(inventoryManager.InventorySlots, slot); // Save the slot index
+
                 copyItem.ImageData = itemInSlot.Item.Icon.texture.EncodeToPNG();
 
                 saveData.Items.Add(copyItem);
@@ -38,17 +41,26 @@ public class SaveLoadItemsData : SaveLoadSystem<ItemData>
 
     private async Task ClearAndLoadInventory()
     {
-        // Пройдитесь по всем ячейкам инвентаря и удалите итемы
+        await ClearInventory();
+        await LoadInventory();
+    }
+
+    private async Task ClearInventory()
+    {
+        // Go through all inventory slots and remove items
         foreach (var slot in inventoryManager.InventorySlots)
         {
             IInventoryItemView itemInSlot = slot.GetComponentInChildren<IInventoryItemView>();
             if (itemInSlot != null)
             {
                 inventoryManager.RemoveItemFromInventory(itemInSlot);
-                await Task.Yield(); // Дайте Unity время на уничтожение объекта
+                await Task.Yield(); // Give Unity time to destroy the object
             }
         }
+    }
 
+    private async Task LoadInventory()
+    {
         List<ItemData> loadedItems = JsonConvert.DeserializeObject<List<ItemData>>(jsonData);
 
         foreach (var itemData in loadedItems)
@@ -59,15 +71,27 @@ public class SaveLoadItemsData : SaveLoadSystem<ItemData>
             Texture2D texture = new Texture2D(1, 1);
             if (texture.LoadImage(itemData.ImageData))
             {
-                Sprite icon = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-                item.Icon = icon;
+                item.Icon = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
             }
             else
             {
                 Debug.LogError("Failed to load image for item.");
             }
-            inventoryManager.AddItem(item);
-            await Task.Yield();
+
+            inventoryManager.LoadItemToSlot(item, item.SlotIndex);
         }
+
+        foreach (var slot in inventoryManager.InventorySlots)
+        {
+            IInventoryItemView itemInSlot = slot.GetComponentInChildren<IInventoryItemView>();
+            if (itemInSlot != null && itemInSlot.IsEquipped)
+            {
+                _shootModel.ChangeWeapon(itemInSlot);
+                break;
+            }
+        }
+
+        await Task.Yield();
     }
+
 }

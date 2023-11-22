@@ -10,6 +10,8 @@ public class Item : ScriptableObject, IItemParams, IWeaponParams
     [SerializeField] private string _itemName;
     [SerializeField] private int _count;
     [SerializeField] private ItemType _type;
+    [HideInInspector] [SerializeField] public int SlotIndex { get; set; }
+
 
     [Header("Only UI")]
     [SerializeField] private bool _stackable = true;
@@ -29,7 +31,6 @@ public class Item : ScriptableObject, IItemParams, IWeaponParams
     public Sprite Icon { get => _icon; set => _icon = value; }
     public byte[] ImageData { get; set; }
     public int MagazineSize { get => _magazineSize; set => _magazineSize = value; }
-
 }
 
 public enum ItemType

@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class InventorySlotData
 {
-    public string ColorHex { get; set; } // Цвет в формате HEX
+    public string ColorHex { get; set; } // Color in HEX format
 
     public string CachedColorSlotHex { get; set; }
 
@@ -35,7 +35,7 @@ public class InventorySlotData
         else
         {
             Debug.LogError("Failed to parse color from HEX string: " + hex);
-            return Color.white; // Вернуть какой-то значения по умолчанию в случае ошибки
+            return Color.white;// Return default value in case of error
         }
     }
 

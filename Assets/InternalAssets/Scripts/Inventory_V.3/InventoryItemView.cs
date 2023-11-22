@@ -44,12 +44,9 @@ public class InventoryItemView : MonoBehaviour, IInventoryItemView, IBeginDragHa
 
     public void RefreshCount()
     {
-        if (_countText.gameObject.activeInHierarchy)
-        {
-            _countText.text = Item.Count.ToString();
-            bool textActive = Item.Count > 1;
-            _countText.gameObject.SetActive(textActive);
-        }
+        _countText.text = Item.Count.ToString();
+        bool textActive = Item.Count > 1;
+        _countText.gameObject.SetActive(textActive);
 
         if (Item.Count <= 0)
         {

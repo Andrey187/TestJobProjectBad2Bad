@@ -43,8 +43,8 @@ public class SaveLoadSlotsData : SaveLoadSystem<InventorySlotData>
                 inventoryManager.InventorySlots[i].Image.color = color;
                 inventoryManager.InventorySlots[i].CachedImageColor = cachedColor;
             }
-            await Task.Yield();
         }
+        await Task.Yield();
     }
 }
 

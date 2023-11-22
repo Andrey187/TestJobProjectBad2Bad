@@ -16,7 +16,7 @@ public class ItemEditor : Editor
 
         Item item = target as Item;
 
-        // ѕроход по всем сериализованным пол€м
+        // Loop through all serialized fields
         SerializedProperty property = serializedObject.GetIterator();
         bool next = property.NextVisible(true);
 
@@ -30,7 +30,7 @@ public class ItemEditor : Editor
             next = property.NextVisible(false);
         }
 
-        // ќпределите, какие пол€ отображать в зависимости от типа
+        // Determine which fields to display based on type
         if (item.Type == ItemType.Weapon)
         {
             EditorGUILayout.PropertyField(_magazineSize);

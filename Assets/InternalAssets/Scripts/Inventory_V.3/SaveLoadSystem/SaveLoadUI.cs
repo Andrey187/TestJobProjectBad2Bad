@@ -30,10 +30,10 @@ public class SaveLoadUI : MonoBehaviour
         _ammoSaveLoadData.SaveData(saveData);
     }
 
-    private void LoadButton()
+    private async void LoadButton()
     {
-        _itemsSaveLoadData.LoadData();
-        _slotsSaveLoadData.LoadData();
-        _ammoSaveLoadData.LoadData();
+        await _itemsSaveLoadData.LoadData();
+        await _slotsSaveLoadData.LoadData();
+        await _ammoSaveLoadData.LoadData();
     }
 }

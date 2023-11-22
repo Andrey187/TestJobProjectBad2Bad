@@ -13,7 +13,7 @@ public class ItemPickUp : MonoBehaviour
 
         copyItem.CopyItemGeneric(Item);
 
-        bool result = _inventoryManager.AddItem(copyItem);
+        bool result = _inventoryManager.AddItemInSlot(copyItem);
     }
 
 

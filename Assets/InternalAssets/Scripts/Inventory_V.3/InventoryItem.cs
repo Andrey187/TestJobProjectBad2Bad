@@ -10,19 +10,14 @@ public class InventoryItem : MonoBehaviour, IPointerExitHandler, IPointerDownHan
 
     [Inject] private IShootModel _shootModel;
     [Inject] private IInventoryManager _inventoryManager;
-    private bool isDragAllowed = false; // ‘лаг, позвол€ющий или запрещающий перетаскивание
-    private bool isDragging = false; // ‘лаг, указывающий, что объект в данный момент перетаскиваетс€
+    private bool isDragAllowed = false; // Flag allowing or disabling dragging
+    private bool isDragging = false; // Flag indicating that the object is currently being dragged
     private bool isSelected  = false;
     private IInventoryItemView _inventoryItemView;
 
     private void Start()
     {
         _inventoryItemView = gameObject.GetComponent<IInventoryItemView>();
-
-        if (_inventoryItemView.IsEquipped)
-        {
-            _shootModel.ChangeWeapon(_inventoryItemView);
-        }
 
         _inventoryItemView.OnEquipItem += EquipItem;
         _inventoryItemView.OnSelectItem += SelectItem;
@@ -49,7 +44,6 @@ public class InventoryItem : MonoBehaviour, IPointerExitHandler, IPointerDownHan
 
     private void RemoveItem(IInventoryItemView inventoryItemView)
     {
-        inventoryItemView.IsEquipped = false;
         InventorySlot inventorySlot = gameObject.GetComponentInParent<InventorySlot>();
         inventorySlot.Image.color = inventorySlot.CachedImageColor;
         _inventoryManager.RemoveItemFromInventory(inventoryItemView);

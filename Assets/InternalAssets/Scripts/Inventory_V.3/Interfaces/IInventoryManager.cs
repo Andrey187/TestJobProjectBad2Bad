@@ -6,8 +6,8 @@ public interface IInventoryManager : INotifyPropertyChanged
 {
     public InventorySlot[] InventorySlots { get; }
 
-    public bool AddItem(ItemData item);
-
+    public bool AddItemInSlot(ItemData item);
+    public bool LoadItemToSlot(ItemData item, int slotIndex);
     public List<IInventoryItemView> AmmoSlots { get; set; }
 
     public List<IInventoryItemView> WeaponSlots { get; set; }

@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class SaveLoadAmmoData : SaveLoadSystem<AmmoData>
 {
@@ -22,16 +23,16 @@ public class SaveLoadAmmoData : SaveLoadSystem<AmmoData>
 
     public async override Task LoadData()
     {
-        await LoadDataFromJson(ClearAndLoadInventorySlots, fileName);
+        await LoadDataFromJson(LoadAmmoData, fileName);
     }
 
-    private async Task ClearAndLoadInventorySlots()
+    private async Task LoadAmmoData()
     {
         List<AmmoData> loadedData = JsonConvert.DeserializeObject<List<AmmoData>>(jsonData);
 
-        for (int i = 0; i < loadedData.Count; i++)
+        if (loadedData.Count > 0)
         {
-            _shootModel.Ammo = loadedData[i].Ammo;
+            _shootModel.SetAmmo(loadedData[0].Ammo);
         }
         await Task.Yield();
     }

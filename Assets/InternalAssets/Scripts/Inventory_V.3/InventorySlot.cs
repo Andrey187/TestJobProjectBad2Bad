@@ -1,19 +1,29 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class InventorySlot : MonoBehaviour, IInventorySlot, IDropHandler
 {
     [SerializeField] private Image _image;
-    private Color _imageColor;
 
     public Image Image { get => _image; set => _image = value; }
-    public Color CachedImageColor { get => _imageColor; set => _imageColor = value; }
+    public Color CachedImageColor { get; set; }
 
     private void Start()
     {
-        _imageColor = _image.color;
+        if (CachedImageColor == Color.clear)
+        {
+            CachedImageColor = _image.color;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Debug.Log(CachedImageColor);
+            Debug.Log(Image.color);
+        }
     }
 
     public void OnDrop(PointerEventData eventData)

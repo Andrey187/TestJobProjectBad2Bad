@@ -18,13 +18,30 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
     public List<IInventoryItemView> AmmoSlots { get => _ammoSlots; set => _ammoSlots = value; }
 
     public List<IInventoryItemView> WeaponSlots { get => _weaponSlots; set => _weaponSlots = value; }
-
-    public bool AddItem(ItemData item)
+    
+    public bool AddItemInSlot(ItemData item)
     {
-        // ѕытаемс€ стакать существующие предметы
+        // Trying to stack existing items
         MergeExistingItems(item);
 
         return AddRemainingItems(item, item.Count);
+    }
+
+    public bool LoadItemToSlot(ItemData item, int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < _inventorySlots.Length)
+        {
+            InventorySlot slot = _inventorySlots[slotIndex];
+            IInventoryItemView itemInSlot = slot.GetComponentInChildren<IInventoryItemView>();
+
+            if (itemInSlot == null)
+            {
+                SpawnNewItem(item, slot);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void MergeExistingItems(ItemData item)
@@ -68,7 +85,6 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
         {
             int stackSize = Math.Min(itemCount, MaxStackedItems);
 
-            // —оздайте новый экземпл€р CopyItem дл€ каждого нового итема
             ItemData newItem = new ItemData();
             newItem.CopyItemGeneric(item);
             newItem.Count = stackSize;
@@ -108,6 +124,7 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
         if (inventoryItem.Item.Type == ItemType.Ammo)
         {
             _ammoSlots.Add(inventoryItem);
+            OnPropertyChanged(nameof(inventoryItem.Item));
         }
     }
 
@@ -127,6 +144,7 @@ public class InventoryManager_V3 : MonoBehaviour, IInventoryManager, INotifyProp
 
         if (item.Item.Type == ItemType.Weapon && item.Item.IsEquipped)
         {
+            item.IsEquipped = false;
             _weaponSlots.Remove(item);
             OnPropertyChanged(nameof(WeaponSlots));
         }

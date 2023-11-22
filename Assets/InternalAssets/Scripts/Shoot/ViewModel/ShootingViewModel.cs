@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using UnityEngine;
 
 public class ShootingViewModel : INotifyPropertyChanged
 {
@@ -49,7 +48,7 @@ public class ShootingViewModel : INotifyPropertyChanged
     {
         if(Item != null)
         {
-            // Проверяем, если Ammo больше или равно 16, то выходим
+            // Check if Ammo is greater than or equal to 16, then exit
             if (Ammo >= _shootModel.Item.MagazineSize)
             {
                 return;
@@ -57,10 +56,9 @@ public class ShootingViewModel : INotifyPropertyChanged
 
             int neededAmmo = _shootModel.Item.MagazineSize - Ammo;
 
-            // Создаем копию списка для итерации
+            // Create a copy of the list for iteration
             List<IInventoryItemView> ammoSlotsCopy = new List<IInventoryItemView>(_shootModel.InventoryManager.AmmoSlots);
 
-            // Перебираем все элементы инвентаря
             foreach (var itemInSlot in ammoSlotsCopy)
             {
                 if (itemInSlot.Item.Count >= neededAmmo)
@@ -95,22 +93,21 @@ public class ShootingViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(Ammo));
     }
 
+   
     private void ChangeWeapon()
     {
+        List<IInventoryItemView> ammoSlotsCopy = new List<IInventoryItemView>(_shootModel.InventoryManager.AmmoSlots);
         if (Ammo >= _shootModel.Item.MagazineSize)
         {
             _returnAmmo = Ammo - _shootModel.Item.MagazineSize;
             RemoveAmmo(_returnAmmo);
-        }
 
-        List<IInventoryItemView> ammoSlotsCopy = new List<IInventoryItemView>(_shootModel.InventoryManager.AmmoSlots);
-
-        // Перебираем все элементы инвентаря
-        foreach (var itemInSlot in ammoSlotsCopy)
-        {
-            itemInSlot.Item.Count += _returnAmmo;
-            itemInSlot.RefreshCount();
-            break;
+            foreach (var itemInSlot in ammoSlotsCopy)
+            {
+                itemInSlot.Item.Count += _returnAmmo;
+                itemInSlot.RefreshCount();
+                break;
+            }
         }
     }
 
@@ -118,13 +115,12 @@ public class ShootingViewModel : INotifyPropertyChanged
     {
         List<IInventoryItemView> ammoSlotsCopy = new List<IInventoryItemView>(_shootModel.InventoryManager.AmmoSlots);
 
-        // Перебираем все элементы инвентаря
         foreach (var itemInSlot in ammoSlotsCopy)
         {
             itemInSlot.Item.Count += Ammo;
             itemInSlot.RefreshCount();
             RemoveAmmo(Ammo);
-            break;  // Чтобы добавить патроны только в первую подходящую ячейку
+            break; // To add ammo to only the first matching slot
         }
     }
 
@@ -137,8 +133,8 @@ public class ShootingViewModel : INotifyPropertyChanged
     {
         switch (e.PropertyName)
         {
-            case nameof(_shootModel.Item):
-                if(_shootModel.Item != null)
+            case nameof(Item):
+                if(Item != null)
                 {
                     OnPropertyChanged(nameof(Item));
                     ChangeWeapon();
@@ -148,6 +144,9 @@ public class ShootingViewModel : INotifyPropertyChanged
                     OnPropertyChanged(nameof(Item));
                     ReturnAmmoToInventory();
                 }
+                break;
+            case nameof(Ammo):
+                OnPropertyChanged(nameof(Ammo));
                 break;
         }
     }
